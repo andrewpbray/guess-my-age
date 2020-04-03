@@ -1,0 +1,224 @@
+---
+title: ""
+output:
+  xaringan::moon_reader:
+    css: ["fc", "fc-fonts", "reed.css", "default"]
+    lib_dir: libs
+    nature:
+      highlightStyle: atelier-forest-light
+      highlightLines: true
+      highlightSpans: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warnings = FALSE, message = FALSE)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(gargle)
+library(googlesheets4)
+```
+
+# Protocols: examples?
+
+
+---
+
+```{r make-results-df}
+options(gargle_oauth_email = "andrew.bray@gmail.com")
+url <- "https://docs.google.com/spreadsheets/d/1tcbuqOn9g0EEtv1wjlCs6gbpZ_YZufxhZ5nu0YYNj80/edit?usp=sharing"
+new_results <- read_sheet(ss = url) %>%
+  select(-1) %>%
+  drop_na()
+names(new_results) <- c("Group", LETTERS[1:10])
+new_results <- new_results %>%
+  distinct(Group, .keep_all = TRUE)
+
+old_results <- tribble(
+  ~Group, ~A, ~B, ~C, ~D, ~E, ~F, ~G, ~H, ~I, ~J,
+  1, 26.6, 20.2, 58.6, 39.4, 34, 26.2, 32.4, 28.6, 50.8, 47.2,
+  2, 26.2, 20, 55.2, 35.2, 30.2, 23.0, 29.2, 31.8, 45.8, 41.4,
+  3, 28, 23, 59, 40, 27, 28, 28, 32, 50, 43,
+  4, 28, 23, 59, 41, 31, 26, 26, 35, 52, 47,
+  5, 30, 18, 58, 34, 30, 26, 29, 37, 48, 38
+)
+
+#  6, 26, 19, 57, 32, 26, 25, 24, 30, 47, 40,
+#  7, 32, 22, 60, 55, 30, 30, 30, 35, 49, 52,
+
+old_results_no_dupes <- old_results %>%
+  filter(!Group %in% new_results$Group)
+
+results <- bind_rows(new_results, old_results_no_dupes) %>%
+  arrange(Group) %>%
+  mutate(Group = as.character(Group))
+```
+
+# Results
+
+```{r}
+knitr::include_graphics("figs/gallery-row.png")
+```
+
+```{r}
+kable(results, align = "ccccccccccc") %>%
+  kable_styling(bootstrap_options = c("striped"),
+                font_size = 30) %>%
+  column_spec(1, bold = T, border_right = T)
+```
+
+---
+# Predictive Modeling as a Human
+
+```{r out.height=480, out.width=600, fig.align = "center"}
+knitr::include_graphics("figs/human-brain.jpg")
+```
+
+---
+# What features do you look for?
+
+.pull-left[
+```{r out.height=400, out.width=290}
+knitr::include_graphics("figs/rick.png")
+```
+]
+
+---
+# Training Humans
+
+```{r out.height=480, out.width=600, fig.align = "center"}
+knitr::include_graphics("figs/human-train.jpg")
+```
+
+
+---
+# Human Decision-Making
+
+```{r out.height=480, out.width=600, fig.align = "center"}
+knitr::include_graphics("figs/human-decide.jpg")
+```
+
+---
+# Predictive Modeling as a Machine
+
+```{r out.height=480, out.width=600, fig.align = "center"}
+knitr::include_graphics("figs/machine-brain.jpg")
+```
+
+
+---
+# Selecting $\hat{f}$
+
+
+---
+# Training a Machine
+
+```{r out.height=480, out.width=600, fig.align = "center"}
+knitr::include_graphics("figs/human-train.jpg")
+```
+
+
+---
+# Machine Decision-Making
+
+```{r out.height=480, out.width=600, fig.align = "center"}
+knitr::include_graphics("figs/human-decide.jpg")
+```
+
+
+---
+# In this course
+
+.pull-left[
+*We will open up the machines.*
+
+```{r out.height=200, out.width=220, fig.align = "left"}
+knitr::include_graphics("figs/machine.png")
+```
+]
+
+.pull-right[
+## Some recurring themes
+
+1. Raw data may be messy / uninformative
+2. Feature extraction
+3. Many choices for $\hat{f}$!
+4. Learning with ensembles
+5. Must be thoughtful about model assessment
+]
+
+---
+# Results
+
+```{r}
+knitr::include_graphics("figs/gallery-row.png")
+```
+
+```{r warning = FALSE}
+results %>%
+  bind_rows(data.frame(Group = as.character("actual"), A = 23, B = 26, C = 58, D = 51, E = 27,
+                       F = 25, G = 22, H = 43, I = 47, J = 61)) %>%
+  kable(align = "ccccccccccc") %>%
+  kable_styling(bootstrap_options = c("striped"),
+                font_size = 30) %>%
+  column_spec(1, bold = T, border_right = T)
+```
+
+
+---
+# www.how-old.net
+
+```{r out.height=480, out.width=510, fig.align = "center"}
+knitr::include_graphics("figs/how-old.png")
+```
+
+---
+# Results
+
+```{r}
+knitr::include_graphics("figs/gallery-row.png")
+```
+
+```{r warning = FALSE}
+results %>%
+  bind_rows(data.frame(Group = as.character("actual"), A = 23, B = 26, C = 58, D = 51, E = 27,
+                       F = 25, G = 22, H = 43, I = 47, J = 61)) %>%
+  bind_rows(data.frame(Group = as.character("howold"), A = 32, B = 21, C = 79, D = 38, E = 19,
+                       F = 29, G = 28, H = 35, I = 31, J = 42)) %>%
+  kable(align = "ccccccccccccc") %>%
+  kable_styling(bootstrap_options = c("striped"),
+                font_size = 30) %>%
+  column_spec(1, bold = T, border_right = T)
+```
+
+---
+# Results
+
+```{r}
+knitr::include_graphics("figs/gallery-row.png")
+```
+
+```{r warning = FALSE}
+pred <- results %>%
+  bind_rows(data.frame(Group = as.character("howold"), A = 32, B = 21, C = 79, D = 38, E = 19,
+                       F = 29, G = 28, H = 35, I = 31, J = 42)) %>%
+  select(-1) %>%
+  t()
+
+actual <- c(23, 26, 58, 51, 27, 25, 22, 43, 47, 61)
+MSEs <- round(colMeans((pred - actual)^2), 2)
+
+results %>%
+  bind_rows(data.frame(Group = as.character("howold"), A = 32, B = 21, C = 79, D = 38, E = 19,
+                       F = 29, G = 28, H = 35, I = 31, J = 42)) %>%
+  add_column(MSE = c(MSEs)) %>%
+  bind_rows(data.frame(Group = as.character("actual"), A = 23, B = 26, C = 58,
+                       D = 51, E = 27, F = 25, G = 22, H = 43, I = 47, J = 61, 
+                       MSE = 0)) %>%
+  kable(align = rep("c", 12)) %>%
+  kable_styling(bootstrap_options = c("striped"),
+                font_size = 26) %>%
+  column_spec(1, bold = T, border_right = T) %>%
+  column_spec(12, bold = T, border_left = T)
+```

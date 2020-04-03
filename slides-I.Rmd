@@ -1,0 +1,107 @@
+---
+title: ""
+output:
+  xaringan::moon_reader:
+    css: ["fc", "fc-fonts", "reed.css", "default"]
+    lib_dir: libs
+    nature:
+      highlightStyle: atelier-forest-light
+      highlightLines: true
+      highlightSpans: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Guess my Age
+
+```{r out.height=480, out.width=600, fig.align = "center"}
+knitr::include_graphics("figs/man-vs-machine.jpg")
+```
+
+
+---
+# Today's timeline
+
+1. Introdution
+2. Breakout 1: Devise Protocols (7 min)
+3. Brief huddle
+4. Breakout 2: Make Predictions (7 min)
+5. Reveal results
+6. Themes in Human Learning vs Machine Learning
+
+
+---
+# Technology Tips
+
+## In Zoom
+
+- Camera should be on
+- In the main room:
+    - To answer question, unmute (by holding spacebar)
+- In breakout rooms:
+    - Microphone can stay unmuted
+- Don't full-screen Zoom
+
+## In a Browser
+- Keep each link in a different tab
+- Keep an eye out for notices from Zoom
+
+---
+
+```{r out.height=540, out.width=650, fig.align="center"}
+knitr::include_graphics("figs/guess-my-age-protocol.png")
+```
+
+
+---
+
+```{r}
+knitr::include_graphics("figs/links-1.png")
+```
+
+
+---
+
+# Guess My Age Links
+
+## Protocol
+
+.large[`www.yellkey.com/cultural`]
+
+
+---
+
+```{r fig.align="center", out.height=550, out.width=220}
+knitr::include_graphics("figs/guess-my-age-gallery.png")
+```
+
+
+---
+
+```{r fig.align="center", out.height=550, out.width=650}
+knitr::include_graphics("figs/guess-my-age-form.png")
+```
+
+
+---
+
+```{r}
+knitr::include_graphics("figs/links-2.png")
+```
+
+
+---
+# Guess My Age Links
+
+## Protocol
+
+.large[`www.yellkey.com/cultural`]
+
+## Gallery and Predictions
+
+.large[`www.yellkey.com/yeah`]
